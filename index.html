@@ -58,6 +58,7 @@ h1{font-size:30px;font-weight:800;letter-spacing:-.5px;
 .card .img-icon {
   width: 64px; height: 64px; margin: 4px 0 8px; position: relative;
   border-radius: 16px; object-fit: cover; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4));
+  background: #1d1f3d; /* Заглушка пока грузится */
 }
 .card .name{font-size:19px;font-weight:800;position:relative}
 .card .price{font-size:17px;font-weight:700;color:#c4b5fd;margin:4px 0 12px;position:relative}
@@ -77,7 +78,7 @@ h1{font-size:30px;font-weight:800;letter-spacing:-.5px;
 .wide:active{transform:scale(.98)}
 .wide .img-icon {
   width: 52px; height: 52px; border-radius: 14px; object-fit: cover; flex: 0 0 auto;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,.3));
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.3)); background: #1d1f3d;
 }
 .wide .info{flex:1;min-width:0}
 .wide .name{font-size:18px;font-weight:800}
@@ -355,25 +356,25 @@ h1{font-size:32px}
 
   /* ---------- DATA ---------- */
   var DATA = {
-    gems: { img:'images/gems.jpg', unit:'гемов', game:'Brawl Stars', label:'Введите ваш Player Tag в Brawl Stars', ph:'#2PQ8LRY',
-      items:[[30,195],[80,492],[170,951],[360,2014],[950,5040],[2000,10080]] },
-    pubg: { img:'images/uc.jpg', unit:'UC', game:'PUBG Mobile', label:'Введите ваш ID в PUBG Mobile', ph:'51234567890',
-      items:[[60,83],[120,166],[180,249],[325,429],[660,859],[1800,2149]] },
-    cr: { img:'images/cr-gems.jpg', unit:'гемов', game:'Clash Royale', label:'Введите ваш Player Tag в Clash Royale', ph:'#9ULQ2R8',
-      items:[[80,149],[500,449],[1200,999]] },
-    stars: { img:'images/tg-stars.jpg', unit:'звёзд', game:'Telegram Stars', label:'Введите ваш @username в Telegram', ph:'@username',
-      items:[[50,89],[100,175],[250,430],[500,849],[1000,1690],[2500,4190]] }
+    gems: { unit:'гемов', game:'Brawl Stars', label:'Введите ваш Player Tag в Brawl Stars', ph:'#2PQ8LRY',
+      items:[[30,195,'gem-30.jpg'],[80,492,'gem-80.jpg'],[170,951,'gem-170.jpg'],[360,2014,'gem-360.jpg'],[950,5040,'gem-950.jpg'],[2000,10080,'gem-2000.jpg']] },
+    pubg: { unit:'UC', game:'PUBG Mobile', label:'Введите ваш ID в PUBG Mobile', ph:'51234567890',
+      items:[[60,83,'uc-60.jpg'],[120,166,'uc-120.jpg'],[180,249,'uc-180.jpg'],[325,429,'uc-325.jpg'],[660,859,'uc-660.jpg'],[1800,2149,'uc-1800.jpg']] },
+    cr: { unit:'гемов', game:'Clash Royale', label:'Введите ваш Player Tag в Clash Royale', ph:'#9ULQ2R8',
+      items:[[80,149,'cr-80.jpg'],[500,449,'cr-500.jpg'],[1200,999,'cr-1200.jpg']] },
+    stars: { unit:'звёзд', game:'Telegram Stars', label:'Введите ваш @username в Telegram', ph:'@username',
+      items:[[50,89,'star-50.jpg'],[100,175,'star-100.jpg'],[250,430,'star-250.jpg'],[500,849,'star-500.jpg'],[1000,1690,'star-1000.jpg'],[2500,4190,'star-2500.jpg']] }
   };
   var PASSES = [
-    {n:'Улучшение БП', p:492, img:'images/pass.jpg'},
-    {n:'Бравл Пасс', p:875, img:'images/pass.jpg'},
-    {n:'Бравл Пасс+', p:1206, img:'images/pass.jpg'},
-    {n:'Пропасс', p:2677, img:'images/pass.jpg'}
+    {n:'Улучшение БП', p:492, img:'pass-up.jpg'},
+    {n:'Бравл Пасс', p:875, img:'pass-base.jpg'},
+    {n:'Бравл Пасс+', p:1206, img:'pass-plus.jpg'},
+    {n:'Пропасс', p:2677, img:'pass-pro.jpg'}
   ];
   var PREMIUM = [
-    {n:'Telegram Premium · 3 месяца', p:1090, img:'images/premium.jpg'},
-    {n:'Telegram Premium · 6 месяцев', p:1490, img:'images/premium.jpg', b:'Выгодно'},
-    {n:'Telegram Premium · 12 месяцев', p:2590, img:'images/premium.jpg', b:'−30%'}
+    {n:'Telegram Premium · 3 месяца', p:1090, img:'prem-3.jpg'},
+    {n:'Telegram Premium · 6 месяцев', p:1490, img:'prem-6.jpg', b:'Выгодно'},
+    {n:'Telegram Premium · 12 месяцев', p:2590, img:'prem-12.jpg', b:'−30%'}
   ];
 
   /* ---------- RENDER ---------- */
@@ -381,7 +382,7 @@ h1{font-size:32px}
     var d = DATA[key], html = '';
     d.items.forEach(function(it){
       html += '<div class="card">'+
-        '<img class="img-icon" src="'+d.img+'" alt="icon">'+
+        '<img class="img-icon" src="images/'+it[2]+'" alt="icon">'+
         '<div class="name">'+it[0]+' '+d.unit+'</div>'+
         '<div class="price">'+fmt(it[1])+'</div>'+
         '<button class="btn" data-key="'+key+'" data-amt="'+it[0]+'" data-price="'+it[1]+'">Выбрать</button></div>';
@@ -399,12 +400,12 @@ h1{font-size:32px}
     '<button class="btn" data-key="pubg" data-name="Керамбит (PUBG Mobile)" data-price="3990">Выбрать</button></div>');
 
   $('list-pass').innerHTML = PASSES.map(function(x){
-    return '<div class="wide"><img class="img-icon" src="'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
+    return '<div class="wide"><img class="img-icon" src="images/'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
       '<div class="price">'+fmt(x.p)+'</div></div>'+
       '<button class="btn" data-key="gems" data-name="'+x.n+' (Brawl Stars)" data-price="'+x.p+'">Выбрать</button></div>';
   }).join('');
   $('list-prem').innerHTML = PREMIUM.map(function(x){
-    return '<div class="wide"><img class="img-icon" src="'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
+    return '<div class="wide"><img class="img-icon" src="images/'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
       '<div class="price">'+fmt(x.p)+(x.b?' · <span style="color:#fbbf24">'+x.b+'</span>':'')+'</div></div>'+
       '<button class="btn" data-key="stars" data-name="'+x.n+'" data-price="'+x.p+'">Выбрать</button></div>';
   }).join('');
