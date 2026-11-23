@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TATI Shop</title>
+    <!-- Подключаем Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Tailwind CSS для стилизации -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #1a1a2e; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card { background: linear-gradient(145deg, #2a2a40, #202035); border-radius: 15px; border: 1px solid #3a3a55; }
+        .btn-green { background: linear-gradient(180deg, #4ade80, #22c55e); color: #000; font-weight: bold; border-radius: 8px; padding: 10px; width: 100%; margin-top: 10px; transition: 0.2s; }
+        .btn-green:active { transform: scale(0.95); }
+        .btn-purple { background: #7c3aed; color: white; border-radius: 10px; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; transition: 0.2s; }
+        .btn-purple:active { transform: scale(0.95); }
+        .hidden { display: none !important; }
+        .nav-btn { padding: 8px 16px; border-radius: 20px; background: #2a2a40; font-size: 14px; border: 1px solid #3a3a55; white-space: nowrap; }
+        .nav-btn.active { background: #eab308; color: #000; font-weight: bold; border-color: #eab308; }
+        input { background: #0f0f1a; border: 1px solid #4a4a6a; color: white; }
+        input:focus { outline: none; border-color: #7c3aed; }
+        .method-btn { background: #2a2a40; border: 1px solid #4a4a6a; transition: 0.2s; }
+        .method-btn.active { border-color: #7c3aed; background: #3a2a5a; }
+    </style>
+</head>
+<body class="p-4 pb-24">
+
+    <!-- Верхняя панель -->
+    <div class="flex justify-between items-center mb-4">
+        <div class="text-xl font-bold flex items-center gap-2">
+            <span class="bg-yellow-500 text-black px-2 py-1 rounded text-sm">TATI</span> Shop
+        </div>
+        <div class="bg-[#2a2a40] px-3 py-1 rounded-full text-sm border border-gray-600 cursor-pointer" onclick="tg.close()">Закрыть</div>
+    </div>
+
+    <!-- Меню навигации -->
+    <div class="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+        <button class="nav-btn active" onclick="switchTab('main', this)">🎮 Все игры</button>
+        <button class="nav-btn" onclick="switchTab('gems', this)">💎 Гемы</button>
+        <button class="nav-btn" onclick="switchTab('passes', this)">🎫 Пропуска</button>
+        <button class="nav-btn" onclick="switchTab('steam', this)">🖥️ Steam</button>
+        <button class="nav-btn" onclick="switchTab('tg', this)">⭐ TG Stars</button>
+    </div>
+
+    <!-- Главный экран (Сетка игр) -->
+    <div id="tab-main" class="grid grid-cols-2 gap-3">
+        <div class="card p-3 text-center cursor-pointer hover:bg-[#3a3a55] transition" onclick="openCategory('steam')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" class="w-12 h-12 mx-auto mb-2">
+            <div class="font-bold text-sm">Пополнение Steam</div>
+        </div>
+        <div class="card p-3 text-center cursor-pointer hover:bg-[#3a3a55] transition" onclick="openCategory('pubg')">
+            <div class="text-4xl mb-2">🔫</div>
+            <div class="font-bold text-sm">PUBG Mobile (UC)</div>
+        </div>
+        <div class="card p-3 text-center cursor-pointer hover:bg-[#3a3a55] transition" onclick="openCategory('brawl')">
+            <div class="text-4xl mb-2">👊</div>
+            <div class="font-bold text-sm">Brawl Stars</div>
+        </div>
+        <div class="card p-3 text-center cursor-pointer hover:bg-[#3a3a55] transition" onclick="openCategory('tgstars')">
+            <div class="text-4xl mb-2 text-yellow-400">⭐</div>
+            <div class="font-bold text-sm">TG Stars / Premium</div>
+        </div>
+        <div class="card p-3 text-center cursor-pointer hover:bg-[#3a3a55] transition" onclick="openCategory('clash')">
+            <div class="text-4xl mb-2">🏰</div>
+            <div class="font-bold text-sm">Clash Royale</div>
+        </div>
+        <div class="card p-3 text-center cursor-pointer hover:bg-[#3a3a55] transition" onclick="openCategory('clashclans')">
+            <div class="text-4xl mb-2">⚔️</div>
+            <div class="font-bold text-sm">Clash of Clans</div>
+        </div>
+    </div>
+
+    <!-- Экран Гемов -->
+    <div id="tab-gems" class="hidden">
+        <div class="text-center mb-4 text-green-400 font-bold text-xl bg-green-900/30 p-2 rounded">ГЕМЫ (Brawl Stars)</div>
+        <div class="grid grid-cols-2 gap-3">
+            <!-- Товары -->
+            <div class="card p-3 text-center">
+                <div class="font-bold text-sm">30 ГЕМОВ</div>
+                <div class="text-2xl my-2">💎</div>
+                <div class="text-lg font-bold">195 ₽</div>
+                <button class="btn-green" onclick="openBuyModal('30 Гемов', 195, 'ID игрока Brawl Stars')">Выбрать</button>
+            </div>
+            <div class="card p-3 text-center">
+                <div class="font-bold text-sm">80 ГЕМОВ</div>
+                <div class="text-3xl my-2">💎💎</div>
+                <div class="text-lg font-bold">492 ₽</div>
+                <button class="btn-green" onclick="openBuyModal('80 Гемов', 492, 'ID игрока Brawl Stars')">Выбрать</button>
+            </div>
+            <div class="card p-3 text-center">
+                <div class="font-bold text-sm">170 ГЕМОВ</div>
+                <div class="text-4xl my-2">💎💎💎</div>
+                <div class="text-lg font-bold">951 ₽</div>
+                <button class="btn-green" onclick="openBuyModal('170 Гемов', 951, 'ID игрока Brawl Stars')">Выбрать</button>
+            </div>
+             <div class="card p-3 text-center">
+                <div class="font-bold text-sm">360 ГЕМОВ</div>
+                <div class="text-4xl my-2">💰</div>
+                <div class="text-lg font-bold">2014 ₽</div>
+                <button class="btn-green" onclick="openBuyModal('360 Гемов', 2014, 'ID игрока Brawl Stars')">Выбрать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран Пропусков -->
+    <div id="tab-passes" class="hidden">
+        <div class="text-center mb-4 text-blue-400 font-bold text-xl bg-blue-900/30 p-2 rounded">ПРОПУСКА</div>
+        <div class="card p-4 mb-3 flex justify-between items-center">
+            <div>
+                <div class="font-bold">Улучшение БП</div>
+                <div class="text-green-400 font-bold">492 ₽</div>
+            </div>
+            <button class="btn-green w-24" onclick="openBuyModal('Улучшение БП', 492, 'ID игрока Brawl Stars')">Выбрать</button>
+        </div>
+        <div class="card p-4 mb-3 flex justify-between items-center">
+            <div>
+                <div class="font-bold">Бравл Пасс</div>
+                <div class="text-green-400 font-bold">875 ₽</div>
+            </div>
+            <button class="btn-green w-24" onclick="openBuyModal('Бравл Пасс', 875, 'ID игрока Brawl Stars')">Выбрать</button>
+        </div>
+        <div class="card p-4 mb-3 flex justify-between items-center">
+            <div>
+                <div class="font-bold">Бравл Пасс +</div>
+                <div class="text-green-400 font-bold">1206 ₽</div>
+            </div>
+            <button class="btn-green w-24" onclick="openBuyModal('Бравл Пасс +', 1206, 'ID игрока Brawl Stars')">Выбрать</button>
+        </div>
+    </div>
+
+    <!-- Экран Steam -->
+    <div id="tab-steam" class="hidden">
+        <div class="text-center mb-4 text-blue-400 font-bold text-xl bg-blue-900/30 p-2 rounded">STEAM</div>
+        <div class="card p-4 mb-3">
+            <p class="text-sm text-gray-400 mb-2">Введите логин Steam (не никнейм!)</p>
+            <input type="text" id="steam-login-input" class="w-full rounded p-3 mb-3" placeholder="Логин Steam">
+            <p class="text-sm text-gray-400 mb-2">Сумма пополнения (₽)</p>
+            <input type="number" id="steam-amount-input" class="w-full rounded p-3 mb-3" placeholder="Например: 500" min="100">
+            <button class="btn-purple" onclick="buySteam()">Пополнить</button>
+        </div>
+    </div>
+
+    <!-- Экран TG Stars -->
+    <div id="tab-tg" class="hidden">
+        <div class="text-center mb-4 text-yellow-400 font-bold text-xl bg-yellow-900/30 p-2 rounded">TELEGRAM STARS</div>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="card p-3 text-center">
+                <div class="font-bold text-sm">50 Stars</div>
+                <div class="text-2xl my-2">⭐</div>
+                <div class="text-lg font-bold">100 ₽</div>
+                <button class="btn-green" onclick="openBuyModal('50 Telegram Stars', 100, 'Ваш Telegram Username (@...)')">Выбрать</button>
+            </div>
+            <div class="card p-3 text-center">
+                <div class="font-bold text-sm">100 Stars</div>
+                <div class="text-3xl my-2">⭐⭐</div>
+                <div class="text-lg font-bold">200 ₽</div>
+                <button class="btn-green" onclick="openBuyModal('100 Telegram Stars', 200, 'Ваш Telegram Username (@...)')">Выбрать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оплаты -->
+    <div id="payment-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50 p-4 backdrop-blur-sm">
+        <div class="bg-[#1a1a2e] border border-purple-500 rounded-xl p-5 w-full max-w-md shadow-2xl">
+            <h2 class="text-xl font-bold mb-4 text-center text-purple-400" id="modal-title">Оплата</h2>
+            
+            <div class="mb-4">
+                <label class="block text-sm text-gray-400 mb-1" id="login-label">Ваш Логин / ID</label>
+                <input type="text" id="user-login" class="w-full rounded p-3 text-white" placeholder="Введите данные">
+                <p class="text-xs text-red-400 mt-1">Внимание! Если данные введены неверно, средства не вернуть.</p>
+            </div>
+
+            <div class="mb-4 bg-[#2a2a40] p-3 rounded flex justify-between items-center border border-gray-700">
+                <span>К оплате:</span>
+                <span class="text-xl font-bold text-green-400" id="modal-price">0 ₽</span>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-sm text-gray-400 mb-2">Способ оплаты:</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="method-btn p-3 rounded flex flex-col items-center justify-center active" onclick="setPayMethod('SBP')" id="btn-sbp">
+                        <span class="text-2xl mb-1">📱</span>
+                        <span class="text-sm font-bold">СБП</span>
+                    </button>
+                    <button class="method-btn p-3 rounded flex flex-col items-center justify-center" onclick="setPayMethod('Card')" id="btn-card">
+                        <span class="text-2xl mb-1">💳</span>
+                        <span class="text-sm font-bold">Картой</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn-purple mb-2" onclick="processPayment()">Оплатить</button>
+            <button class="w-full text-center text-gray-400 text-sm py-2" onclick="closeModal()">Отмена</button>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram
+        const tg = window.Telegram.WebApp;
+        tg.expand(); 
+        
+        // Переменные для хранения текущего выбора
+        let currentItem = "";
+        let currentPrice = 0;
+        let currentLoginType = "";
+        let selectedMethod = "SBP"; // По умолчанию СБП
+
+        // --- НАВИГАЦИЯ ---
+        function switchTab(tabId, btn) {
+            ['main', 'gems', 'passes', 'steam', 'tg'].forEach(id => {
+                document.getElementById('tab-' + id).classList.add('hidden');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+        }
+
+        function openCategory(cat) {
+            if(cat === 'brawl') document.querySelectorAll('.nav-btn')[1].click(); 
+            else if (cat === 'steam') document.querySelectorAll('.nav-btn')[3].click();
+            else if (cat === 'tgstars') document.querySelectorAll('.nav-btn')[4].click();
+            else tg.showAlert("Этот раздел в разработке. Скоро добавим!");
+        }
+
+        // --- ЛОГИКА ОПЛАТЫ ---
+        function openBuyModal(itemName, price, loginType) {
+            currentItem = itemName;
+            currentPrice = price;
+            currentLoginType = loginType;
+            
+            document.getElementById('modal-title').innerText = "Покупка: " + itemName;
+            document.getElementById('modal-price').innerText = price + " ₽";
+            document.getElementById('login-label').innerText = loginType;
+            document.getElementById('user-login').value = "";
+            
+            // Сброс выбора метода на СБП
+            setPayMethod('SBP');
+            
+            document.getElementById('payment-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+        }
+
+        function setPayMethod(method) {
+            selectedMethod = method;
+            document.getElementById('btn-sbp').classList.remove('active');
+            document.getElementById('btn-card').classList.remove('active');
+            
+            if(method === 'SBP') document.getElementById('btn-sbp').classList.add('active');
+            if(method === 'Card') document.getElementById('btn-card').classList.add('active');
+        }
+
+        // Обработка кнопки "Оплатить"
+        function processPayment() {
+            const login = document.getElementById('user-login').value.trim();
+            if(!login) {
+                tg.showAlert("Пожалуйста, введите данные аккаунта!");
+                return;
+            }
+
+            // Блокируем кнопку, чтобы не нажали дважды
+            const btn = document.querySelector('#payment-modal .btn-purple');
+            btn.innerText = "Загрузка...";
+            btn.disabled = true;
+
+            /* =======================================================================
+               ВОТ ЗДЕСЬ ТЫ ВСТАВЛЯЕШЬ СВОЙ КОД СБП!
+               Когда ты получишь API от банка или агрегатора (например, ссылку на оплату), 
+               ты заменишь этот блок `setTimeout` на реальный `fetch` запрос на твой сервер.
+               
+               Пример того, как это будет выглядеть в будущем:
+               
+               fetch('https://твой-сервер.ру/api/pay', {
+                   method: 'POST',
+                   body: JSON.stringify({ item: currentItem, price: currentPrice, login: login, method: selectedMethod })
+               })
+               .then(res => res.json())
+               .then(data => {
+                   if(data.payment_url) {
+                       window.location.href = data.payment_url; // Перенаправляем в банк
+                   } else {
+                       tg.showAlert("Ошибка создания платежа");
+                   }
+               });
+               ======================================================================= */
+
+            // ВРЕМЕННАЯ ЗАГЛУШКА (Чтобы ты мог проверить работу кнопок сегодня)
+            setTimeout(() => {
+                btn.innerText = "Оплатить";
+                btn.disabled = false;
+                
+                tg.showPopup({
+                    title: 'Демо-режим',
+                    message: `Товар: ${currentItem}\nСумма: ${currentPrice} ₽\nМетод: ${selectedMethod}\nЛогин: ${login}\n\n(Здесь должна открыться страница СБП)`,
+                    buttons: [{type: 'ok', text: 'Понятно'}]
+                });
+                
+                // Закрываем окно после демо
+                // closeModal(); 
+            }, 1000);
+        }
+
+        // Логика для Steam
+        function buySteam() {
+            const login = document.getElementById('steam-login-input').value.trim();
+            const amount = document.getElementById('steam-amount-input').value;
+            
+            if(!login || !amount || amount < 100) {
+                tg.showAlert("Введите логин и сумму от 100 рублей");
+                return;
+            }
+            openBuyModal(`Пополнение Steam на ${amount} ₽`, amount, 'Логин Steam');
+            // Автозаполняем логин в модалке
+            document.getElementById('user-login').value = login;
+        }
+    </script>
+</body>
+      </html>
