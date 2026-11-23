@@ -53,7 +53,12 @@ h1{font-size:30px;font-weight:800;letter-spacing:-.5px;
 .card:active{transform:scale(.97)}
 .card::before{content:"";position:absolute;inset:-40% -20% auto;height:80%;
   background:radial-gradient(circle,var(--glow,rgba(139,92,246,.35)),transparent 70%);pointer-events:none}
-.card .ico{font-size:42px;margin:4px 0 8px;position:relative;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+  
+/* Твои картинки внутри карточек */
+.card .img-icon {
+  width: 64px; height: 64px; margin: 4px 0 8px; position: relative;
+  border-radius: 16px; object-fit: cover; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4));
+}
 .card .name{font-size:19px;font-weight:800;position:relative}
 .card .price{font-size:17px;font-weight:700;color:#c4b5fd;margin:4px 0 12px;position:relative}
 .badge{position:absolute;top:8px;right:8px;background:#f59e0b;color:#1a1200;font-size:11px;font-weight:800;
@@ -65,13 +70,15 @@ h1{font-size:30px;font-weight:800;letter-spacing:-.5px;
 .btn:disabled{opacity:.5}
 .btn.ghost{background:var(--card2);box-shadow:none;border:1px solid var(--line)}
 
-/* wide cards */
+/* wide cards (списки) */
 .list{display:flex;flex-direction:column;gap:12px}
 .wide{display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,var(--card2),var(--card));
   border:1px solid var(--line);border-radius:22px;padding:14px;transition:.2s}
 .wide:active{transform:scale(.98)}
-.wide .ico{font-size:38px;width:62px;height:62px;border-radius:18px;display:grid;place-items:center;
-  background:rgba(139,92,246,.18);flex:0 0 auto}
+.wide .img-icon {
+  width: 52px; height: 52px; border-radius: 14px; object-fit: cover; flex: 0 0 auto;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.3));
+}
 .wide .info{flex:1;min-width:0}
 .wide .name{font-size:18px;font-weight:800}
 .wide .price{font-size:16px;color:#c4b5fd;font-weight:700;margin-top:2px}
@@ -110,12 +117,6 @@ body.home{padding-top:0}
 .banner::before{content:"";position:absolute;inset:0;
   background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.28),transparent 40%),
              radial-gradient(circle at 85% 70%,rgba(59,130,246,.5),transparent 45%)}
-.banner .deco{position:absolute;font-size:46px;opacity:.85;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));animation:float 4s ease-in-out infinite}
-.banner .d1{left:6%;top:22%;transform:rotate(-14deg)}
-.banner .d2{right:7%;top:18%;transform:rotate(12deg);animation-delay:.8s}
-.banner .d3{left:14%;bottom:10%;font-size:34px;animation-delay:1.4s}
-.banner .d4{right:16%;bottom:8%;font-size:38px;animation-delay:2s}
-@keyframes float{50%{translate:0 -8px}}
 .banner .tag{position:relative;background:rgba(20,18,46,.75);border:3px solid #c4b5fd;color:#fff;
   padding:12px 30px;border-radius:18px;font-size:26px;font-weight:900;letter-spacing:.5px;
   clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);
@@ -129,26 +130,12 @@ body.home{padding-top:0}
 .tile.w6{grid-column:span 6;min-height:150px}
 .tile.w3{grid-column:span 3;min-height:150px}
 .tile.w2{grid-column:span 2;min-height:170px}
-.tile .em{position:absolute;right:8%;top:50%;transform:translateY(-55%);font-size:84px;
-  filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
-.tile.w2 .em,.tile.w3 .em{right:50%;transform:translate(50%,-70%);font-size:68px}
 .tile .nm{position:absolute;left:14px;bottom:12px;right:10px;font-size:22px;font-weight:900;font-style:italic;
   text-transform:uppercase;line-height:1.05;text-shadow:0 2px 0 rgba(0,0,0,.35),0 4px 12px rgba(0,0,0,.5);z-index:2}
 .tile.w2 .nm{font-size:19px;text-align:center;left:6px;right:6px}
 .tile .soon{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);font-size:11px;font-weight:700;
   padding:4px 9px;border-radius:999px;z-index:2}
-.t-pubg{background:linear-gradient(120deg,#3b4268,#e3a008 120%)}
-.t-steam{background:linear-gradient(120deg,#1b2a49,#2f4a7a)}
-.t-cr{background:linear-gradient(135deg,#2563eb 50%,#e11d48 50%)}
-.t-bs{background:linear-gradient(135deg,#1d6bff 50%,#e11d48 50%)}
-.t-coc{background:linear-gradient(160deg,#f59e0b,#b45309)}
-.t-tg{background:linear-gradient(120deg,#34385c,#464b7d)}
-.t-g{background:linear-gradient(120deg,#3a3f63,#5b4aa3)}
-.t-ff{background:linear-gradient(120deg,#3a3f63,#c2410c)}
-.t-ml{background:linear-gradient(120deg,#3a3f63,#0e7490)}
-.t-gs{background:linear-gradient(120deg,#3a3f63,#7c3aed)}
 .pill.menu{background:var(--card2)}
-
 
 /* fancy */
 @keyframes shine{to{background-position:200% center}}
@@ -167,19 +154,17 @@ body.home{padding-top:0}
   transform:translateX(-120%);transition:transform .7s}
 .tile:hover::after,.tile:active::after{transform:translateX(120%)}
 .tile{border:1px solid rgba(255,255,255,.14)}
-.tile .em{animation:float 4s ease-in-out infinite}
 .support a{animation:glowp 3s ease-in-out infinite}
 h1{font-size:32px}
 
-
-/* === СВОИ ФОТО: положите файлы в папку images рядом с index.html === */
+/* === СВОИ ФОТО НА ГЛАВНОМ ЭКРАНЕ (ПЛИТКИ) === */
 .banner{background:linear-gradient(rgba(20,10,60,.35),rgba(20,10,60,.55)),url(images/banner.jpg) center/cover no-repeat,linear-gradient(160deg,#a78bfa,#3b3a9e)}
-.tile{--shade:linear-gradient(to top,rgba(0,0,0,.65),rgba(0,0,0,.05) 60%)}
-.t-pubg{background:var(--shade),url(images/pubg.jpg) center/cover no-repeat,linear-gradient(120deg,#3b4268,#e3a008)}
-.t-steam{background:var(--shade),url(images/steam.jpg) center/cover no-repeat,linear-gradient(120deg,#1b2a49,#2f4a7a)}
-.t-cr{background:var(--shade),url(images/clash-royale.jpg) center/cover no-repeat,linear-gradient(135deg,#2563eb 50%,#e11d48 50%)}
-.t-tg{background:var(--shade),url(images/stars.jpg) center/cover no-repeat,linear-gradient(120deg,#34385c,#464b7d)}
-.t-bs{background:var(--shade),url(images/brawl-stars.jpg) center/cover no-repeat,linear-gradient(135deg,#1d6bff 50%,#e11d48 50%)}
+.tile{--shade:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.05) 60%)}
+.t-pubg{background:var(--shade),url(images/pubg.jpg) center/cover no-repeat,#3b4268}
+.t-steam{background:var(--shade),url(images/steam.jpg) center/cover no-repeat,#1b2a49}
+.t-cr{background:var(--shade),url(images/clash-royale.jpg) center/cover no-repeat,#2563eb}
+.t-tg{background:var(--shade),url(images/stars.jpg) center/cover no-repeat,#34385c}
+.t-bs{background:var(--shade),url(images/brawl-stars.jpg) center/cover no-repeat,#1d6bff}
 
 /* support bar */
 .support{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px 14px calc(12px + env(safe-area-inset-bottom));
@@ -370,33 +355,33 @@ h1{font-size:32px}
 
   /* ---------- DATA ---------- */
   var DATA = {
-    gems: { icon:'💎', glow:'rgba(34,197,94,.35)', unit:'гемов', game:'Brawl Stars', label:'Введите ваш Player Tag в Brawl Stars', ph:'#2PQ8LRY',
+    gems: { img:'images/gems.jpg', unit:'гемов', game:'Brawl Stars', label:'Введите ваш Player Tag в Brawl Stars', ph:'#2PQ8LRY',
       items:[[30,195],[80,492],[170,951],[360,2014],[950,5040],[2000,10080]] },
-    pubg: { icon:'🪙', glow:'rgba(245,158,11,.3)', unit:'UC', game:'PUBG Mobile', label:'Введите ваш ID в PUBG Mobile', ph:'51234567890',
+    pubg: { img:'images/uc.jpg', unit:'UC', game:'PUBG Mobile', label:'Введите ваш ID в PUBG Mobile', ph:'51234567890',
       items:[[60,83],[120,166],[180,249],[325,429],[660,859],[1800,2149]] },
-    cr: { icon:'👑', glow:'rgba(59,130,246,.35)', unit:'гемов', game:'Clash Royale', label:'Введите ваш Player Tag в Clash Royale', ph:'#9ULQ2R8',
+    cr: { img:'images/cr-gems.jpg', unit:'гемов', game:'Clash Royale', label:'Введите ваш Player Tag в Clash Royale', ph:'#9ULQ2R8',
       items:[[80,149],[500,449],[1200,999]] },
-    stars: { icon:'⭐', glow:'rgba(251,191,36,.35)', unit:'звёзд', game:'Telegram Stars', label:'Введите ваш @username в Telegram', ph:'@username',
+    stars: { img:'images/tg-stars.jpg', unit:'звёзд', game:'Telegram Stars', label:'Введите ваш @username в Telegram', ph:'@username',
       items:[[50,89],[100,175],[250,430],[500,849],[1000,1690],[2500,4190]] }
   };
   var PASSES = [
-    {n:'Улучшение БП', p:492, i:'⬆️'},
-    {n:'Бравл Пасс', p:875, i:'🎫'},
-    {n:'Бравл Пасс+', p:1206, i:'🎟️'},
-    {n:'Пропасс', p:2677, i:'💳'}
+    {n:'Улучшение БП', p:492, img:'images/pass.jpg'},
+    {n:'Бравл Пасс', p:875, img:'images/pass.jpg'},
+    {n:'Бравл Пасс+', p:1206, img:'images/pass.jpg'},
+    {n:'Пропасс', p:2677, img:'images/pass.jpg'}
   ];
   var PREMIUM = [
-    {n:'Telegram Premium · 3 месяца', p:1090, i:'💜'},
-    {n:'Telegram Premium · 6 месяцев', p:1490, i:'💜', b:'Выгодно'},
-    {n:'Telegram Premium · 12 месяцев', p:2590, i:'💜', b:'−30%'}
+    {n:'Telegram Premium · 3 месяца', p:1090, img:'images/premium.jpg'},
+    {n:'Telegram Premium · 6 месяцев', p:1490, img:'images/premium.jpg', b:'Выгодно'},
+    {n:'Telegram Premium · 12 месяцев', p:2590, img:'images/premium.jpg', b:'−30%'}
   ];
 
   /* ---------- RENDER ---------- */
   function renderGrid(el, key, extra){
     var d = DATA[key], html = '';
     d.items.forEach(function(it){
-      html += '<div class="card" style="--glow:'+d.glow+'">'+
-        '<div class="ico">'+d.icon+'</div>'+
+      html += '<div class="card">'+
+        '<img class="img-icon" src="'+d.img+'" alt="icon">'+
         '<div class="name">'+it[0]+' '+d.unit+'</div>'+
         '<div class="price">'+fmt(it[1])+'</div>'+
         '<button class="btn" data-key="'+key+'" data-amt="'+it[0]+'" data-price="'+it[1]+'">Выбрать</button></div>';
@@ -408,17 +393,18 @@ h1{font-size:32px}
   renderGrid($('grid-cr'),'cr');
   renderGrid($('grid-stars'),'stars');
   renderGrid($('grid-pubg'),'pubg',
-    '<div class="card" style="--glow:rgba(239,68,68,.35)"><span class="badge">СКИН</span>'+
-    '<div class="ico">🗡️</div><div class="name">Керамбит</div><div class="price">'+fmt(3990)+'</div>'+
+    '<div class="card"><span class="badge">СКИН</span>'+
+    '<img class="img-icon" src="images/skin.jpg" alt="Керамбит">'+
+    '<div class="name">Керамбит</div><div class="price">'+fmt(3990)+'</div>'+
     '<button class="btn" data-key="pubg" data-name="Керамбит (PUBG Mobile)" data-price="3990">Выбрать</button></div>');
 
   $('list-pass').innerHTML = PASSES.map(function(x){
-    return '<div class="wide"><div class="ico">'+x.i+'</div><div class="info"><div class="name">'+x.n+'</div>'+
+    return '<div class="wide"><img class="img-icon" src="'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
       '<div class="price">'+fmt(x.p)+'</div></div>'+
       '<button class="btn" data-key="gems" data-name="'+x.n+' (Brawl Stars)" data-price="'+x.p+'">Выбрать</button></div>';
   }).join('');
   $('list-prem').innerHTML = PREMIUM.map(function(x){
-    return '<div class="wide"><div class="ico">'+x.i+'</div><div class="info"><div class="name">'+x.n+'</div>'+
+    return '<div class="wide"><img class="img-icon" src="'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
       '<div class="price">'+fmt(x.p)+(x.b?' · <span style="color:#fbbf24">'+x.b+'</span>':'')+'</div></div>'+
       '<button class="btn" data-key="stars" data-name="'+x.n+'" data-price="'+x.p+'">Выбрать</button></div>';
   }).join('');
@@ -540,7 +526,7 @@ h1{font-size:32px}
     closeModal();
   });
 
-  /* ---------- QR placeholder (SVG, демо-заглушка) ---------- */
+  /* ---------- QR placeholder ---------- */
   function makeQR(seedStr){
     var N = 29, seed = 0, i;
     for (i=0;i<seedStr.length;i++) seed = (seed*31 + seedStr.charCodeAt(i)) >>> 0;
@@ -563,14 +549,14 @@ h1{font-size:32px}
   }
 
   /* ---------- STEAM ---------- */
-  var cur = 'RUB', RATE = 95; // курс USD → ₽ (демо)
+  var cur = 'RUB', RATE = 95;
   var PROMOS = { 'WELCOME': 5, 'DONAT10': 10 };
   function steamCalc(){
     var s = parseFloat($('steam-sum').value) || 0;
     var rub = cur === 'RUB' ? s : s * RATE;
     var code = $('steam-promo').value.trim().toUpperCase();
     var disc = PROMOS[code] || 0;
-    var fee = rub * 1.03;                 // комиссия сервиса (демо)
+    var fee = rub * 1.03;
     var total = Math.round(fee * (1 - disc/100));
     $('promo-hint').textContent = code ? (disc ? '✅ Промокод применён: −'+disc+'%' : '❌ Промокод не найден') : '';
     $('promo-hint').style.color = disc ? '#22c55e' : '#ef4444';
@@ -604,4 +590,4 @@ h1{font-size:32px}
 })();
 </script>
 </body>
-</html>
+  </html>
