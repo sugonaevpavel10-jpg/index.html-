@@ -166,6 +166,8 @@ h1{font-size:32px}
 .t-cr{background:var(--shade),url(images/clash-royale.jpg) center/cover no-repeat,#2563eb}
 .t-tg{background:var(--shade),url(images/stars.jpg) center/cover no-repeat,#34385c}
 .t-bs{background:var(--shade),url(images/brawl-stars.jpg) center/cover no-repeat,#1d6bff}
+.t-rbx{background:var(--shade),url(images/roblox.jpg) center/cover no-repeat,linear-gradient(135deg,#f59e0b,#92400e);min-height:130px}
+.wide .img-icon.big{width:84px;height:84px}
 
 /* support bar */
 .support{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px 14px calc(12px + env(safe-area-inset-bottom));
@@ -222,6 +224,7 @@ h1{font-size:32px}
     <button class="tile w2 t-cr" data-go="cr"><span class="nm">Clash Royale</span></button>
     <button class="tile w2 t-tg" data-go="tg"><span class="nm">TG Stars</span></button>
     <button class="tile w2 t-bs" data-go="gems"><span class="nm">Brawl Stars</span></button>
+    <button class="tile w6 t-rbx" data-go="roblox"><span class="nm">Roblox</span></button>
   </div>
 </section>
 
@@ -232,7 +235,10 @@ h1{font-size:32px}
   <button class="pill" data-tab="pubg" data-group="pubg"><i class="fa-solid fa-crosshairs"></i>PUBG Mobile</button>
   <button class="pill" data-tab="steam" data-group="steam"><i class="fa-brands fa-steam"></i>Steam</button>
   <button class="pill" data-tab="tg" data-group="tg"><i class="fa-brands fa-telegram"></i>Telegram</button>
-  <button class="pill" data-tab="cr" data-group="cr"><i class="fa-solid fa-crown"></i>Clash Royale</button>
+  <button class="pill" data-tab="cr" data-group="cr"><i class="fa-solid fa-crown"></i>Гемы CR</button>
+  <button class="pill" data-tab="crpass" data-group="cr"><i class="fa-solid fa-ticket"></i>Пропуск</button>
+  <button class="pill" data-tab="roblox" data-group="roblox"><i class="fa-solid fa-cube"></i>Robux</button>
+  <button class="pill" data-tab="rbxcard" data-group="roblox"><i class="fa-solid fa-gift"></i>Карты Roblox</button>
 </nav>
 
 <main>
@@ -293,6 +299,21 @@ h1{font-size:32px}
   <section class="tab" id="tab-cr">
     <div class="title">👑 Гемы <small>Clash Royale</small></div>
     <div class="grid" id="grid-cr"></div>
+  </section>
+
+  <section class="tab" id="tab-crpass">
+    <div class="title">🎟️ Пропуск <small>Clash Royale</small></div>
+    <div class="list" id="list-crpass"></div>
+  </section>
+
+  <section class="tab" id="tab-roblox">
+    <div class="title">🧊 Robux <small>Roblox Global</small></div>
+    <div class="grid" id="grid-roblox"></div>
+  </section>
+
+  <section class="tab" id="tab-rbxcard">
+    <div class="title">🎁 Карты Roblox <small>USD</small></div>
+    <div class="grid" id="grid-rbxcard"></div>
   </section>
 </main>
 
@@ -359,9 +380,15 @@ h1{font-size:32px}
     gems: { unit:'гемов', game:'Brawl Stars', label:'Введите ваш Player Tag в Brawl Stars', ph:'#2PQ8LRY',
       items:[[30,195,'gem-30.jpg'],[80,492,'gem-80.jpg'],[170,951,'gem-170.jpg'],[360,2014,'gem-360.jpg'],[950,5040,'gem-950.jpg'],[2000,10080,'gem-2000.jpg']] },
     pubg: { unit:'UC', game:'PUBG Mobile', label:'Введите ваш ID в PUBG Mobile', ph:'51234567890',
-      items:[[60,83,'uc-60.jpg'],[120,166,'uc-120.jpg'],[180,249,'uc-180.jpg'],[325,429,'uc-325.jpg'],[660,859,'uc-660.jpg'],[1800,2149,'uc-1800.jpg']] },
+      items:[[60,83,'uc-60.jpg'],[120,166,'uc-120.jpg'],[180,249,'uc-180.jpg'],[325,429,'uc-325.jpg'],[660,859,'uc-660.jpg'],[1800,2149,'uc-1800.jpg'],[3850,4290,'uc-3850.jpg'],[8100,8690,'uc-8100.jpg']] },
     cr: { unit:'гемов', game:'Clash Royale', label:'Введите ваш Player Tag в Clash Royale', ph:'#9ULQ2R8',
-      items:[[80,149,'cr-80.jpg'],[500,449,'cr-500.jpg'],[1200,999,'cr-1200.jpg']] },
+      items:[[80,149,'cr-80.jpg'],[500,449,'cr-500.jpg'],[1200,999,'cr-1200.jpg'],
+      [6500,4990,'cr-6500.jpg'],   /* TODO: проверь цену */
+      [14000,9990,'cr-14000.jpg']] }, /* TODO: проверь цену */
+    roblox: { unit:'Robux', game:'Roblox Global', label:'Введите ваш ник в Roblox', ph:'username',
+      items:[[800,811,'rbx-800.jpg'],[2000,2055,'rbx-2000.jpg'],[4500,4343,'rbx-4500.jpg'],[10000,8860,'rbx-10000.jpg']] },
+    rbxcard: { unit:'USD', game:'Roblox (карта)', label:'Введите ваш ник в Roblox', ph:'username',
+      items:[[10,819,'rbx-card-10.jpg'],[25,2049,'rbx-card-25.jpg'],[50,4097,'rbx-card-50.jpg']] },
     stars: { unit:'звёзд', game:'Telegram Stars', label:'Введите ваш @username в Telegram', ph:'@username',
       items:[[50,89,'star-50.jpg'],[100,175,'star-100.jpg'],[250,430,'star-250.jpg'],[500,849,'star-500.jpg'],[1000,1690,'star-1000.jpg'],[2500,4190,'star-2500.jpg']] }
   };
@@ -370,6 +397,9 @@ h1{font-size:32px}
     {n:'Бравл Пасс', p:875, img:'pass-base.jpg'},
     {n:'Бравл Пасс+', p:1206, img:'pass-plus.jpg'},
     {n:'Пропасс', p:2677, img:'pass-pro.jpg'}
+  ];
+  var CRPASS = [
+    {n:'Pass Royale', p:1160, img:'cr-pass.jpg'}
   ];
   var PREMIUM = [
     {n:'Telegram Premium · 3 месяца', p:1090, img:'prem-3.jpg'},
@@ -393,6 +423,8 @@ h1{font-size:32px}
   renderGrid($('grid-gems'),'gems');
   renderGrid($('grid-cr'),'cr');
   renderGrid($('grid-stars'),'stars');
+  renderGrid($('grid-roblox'),'roblox');
+  renderGrid($('grid-rbxcard'),'rbxcard');
   renderGrid($('grid-pubg'),'pubg',
     '<div class="card"><span class="badge">СКИН</span>'+
     '<img class="img-icon" src="images/skin.jpg" alt="Керамбит">'+
@@ -403,6 +435,11 @@ h1{font-size:32px}
     return '<div class="wide"><img class="img-icon" src="images/'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
       '<div class="price">'+fmt(x.p)+'</div></div>'+
       '<button class="btn" data-key="gems" data-name="'+x.n+' (Brawl Stars)" data-price="'+x.p+'">Выбрать</button></div>';
+  }).join('');
+  $('list-crpass').innerHTML = CRPASS.map(function(x){
+    return '<div class="wide"><img class="img-icon big" src="images/'+x.img+'" alt=""><div class="info"><div class="name">'+x.n+'</div>'+
+      '<div class="price">'+fmt(x.p)+'</div></div>'+
+      '<button class="btn" data-key="cr" data-name="'+x.n+' (Clash Royale)" data-price="'+x.p+'">Выбрать</button></div>';
   }).join('');
   $('list-prem').innerHTML = PREMIUM.map(function(x){
     return '<div class="wide"><img class="img-icon" src="images/'+x.img+'"><div class="info"><div class="name">'+x.n+'</div>'+
@@ -591,4 +628,4 @@ h1{font-size:32px}
 })();
 </script>
 </body>
-  </html>
+  </html
